@@ -1,37 +1,52 @@
 <script setup lang="ts">
   import { ref } from "vue";
 
-  interface Restaurant {
-    name?: string;
-    address?: string;
-    status?: RestaurantStatus;
-    dishes?: Dish[];
-  }
-
-  type RestaurantStatus =
-    | "Want to Try"
-    | "Recommended"
-    | "Do Not Recommend"
-    | "Must Try";
-
-  const statusList = [
+  const restaurantStatusList = [
     "Want to Try",
     "Recommended",
     "Do Not Recommend",
     "Must Try",
-  ];
+  ] as const;
+
+  type RecommendStatus = (typeof restaurantStatusList)[number];
+
+  interface Restaurant {
+    name?: string;
+    address?: string;
+    status?: RecommendStatus;
+    dishes?: Dish[];
+  }
+
+  interface Dish {
+    name: string;
+    diet?: Diet;
+    status?: RecommendStatus;
+  }
+
+  type Diet =
+    | "vegetarian"
+    | "vegan"
+    | "glutton-free"
+    | "pescatarian"
+    | "lactose-free"
+    | "others";
 
   const restaurantList = ref<Restaurant[]>([]);
-  const newRestaurant = ref<Restaurant>({});
+  const newRestaurant = ref<Restaurant>({
+    status: "Want to Try",
+  });
 
   const addRestaurant = () => {
     restaurantList.value.push({
       name: newRestaurant.value.name,
       address: newRestaurant.value.address,
-      status: "Want to Try",
+      status: newRestaurant.value.status,
       dishes: newRestaurant.value.dishes,
     });
-    // newRestaurant.value.name = "";
+    newRestaurant.value.name = "";
+    newRestaurant.value.address = "";
+    newRestaurant.value.status;
+    newRestaurant.value.dishes;
   };
 </script>
 
@@ -60,27 +75,44 @@
           id="restaurant-status"
           v-model="newRestaurant.status"
         >
-          <option v-for="status in statusList" :value="status" :key="status">
+          <option
+            v-for="status in restaurantStatusList"
+            :value="status"
+            :key="status"
+          >
             {{ status }}
           </option>
         </select>
       </div>
-      <div>
+      <!-- <div>
         <label for="restaurant-dishes">Restaurant Dishes: </label>
         <input
           type="text"
           id="restaurant-dishes"
           v-model="newRestaurant.dishes"
         />
-      </div>
+      </div> -->
 
       <button type="submit">Add Restaurant</button>
     </form>
 
     <ul>
       <li v-for="restaurant in restaurantList" :key="restaurant.name">
-        {{ restaurant.name }}
+        {{ restaurant.name }} - {{ restaurant.address }} -
+        {{ restaurant.status }} - {{ restaurant.dishes }}
       </li>
     </ul>
   </main>
 </template>
+
+<style scoped>
+  @media (min-width: 1024px) {
+    main {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+</style>

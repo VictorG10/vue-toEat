@@ -9,7 +9,7 @@
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/dishes">Dishes</RouterLink>
       </nav>
     </div>
   </header>
@@ -19,6 +19,8 @@
 
 <style scoped>
   header {
+    display: flex;
+    justify-content: space-evenly;
     line-height: 1.5;
     max-height: 100vh;
   }
@@ -29,6 +31,9 @@
   }
 
   nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     font-size: 12px;
     text-align: center;
