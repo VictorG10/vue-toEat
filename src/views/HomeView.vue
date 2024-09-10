@@ -1,14 +1,7 @@
 <script setup lang="ts">
   import { ref } from "vue";
-
-  const restaurantStatusList = [
-    "Want to Try",
-    "Recommended",
-    "Do Not Recommend",
-    "Must Try",
-  ] as const;
-
-  type RecommendStatus = (typeof restaurantStatusList)[number];
+  import type { RecommendStatus, Dish } from "@/type";
+  import { restaurantStatusList } from "@/contants";
 
   interface Restaurant {
     name?: string;
@@ -16,20 +9,6 @@
     status?: RecommendStatus;
     dishes?: Dish[];
   }
-
-  interface Dish {
-    name: string;
-    diet?: Diet;
-    status?: RecommendStatus;
-  }
-
-  type Diet =
-    | "vegetarian"
-    | "vegan"
-    | "glutton-free"
-    | "pescatarian"
-    | "lactose-free"
-    | "others";
 
   const restaurantList = ref<Restaurant[]>([]);
   const newRestaurant = ref<Restaurant>({
@@ -84,14 +63,6 @@
           </option>
         </select>
       </div>
-      <!-- <div>
-        <label for="restaurant-dishes">Restaurant Dishes: </label>
-        <input
-          type="text"
-          id="restaurant-dishes"
-          v-model="newRestaurant.dishes"
-        />
-      </div> -->
 
       <button type="submit">Add Restaurant</button>
     </form>
